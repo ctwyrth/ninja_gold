@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Ninja Gold</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        {% if session['isPlaying'] == True: %}
+        <div class="game-container">
+            <div class="row above">
+                <div class="empty"></div>
+                <div class="card game">
+                    <form action="/process_money" method="POST" class="playcard">
+                        <input type="hidden" name="card-played" value="card1">
+                        <h3 class="cardname">{{ session['card1'][0] }}</h3>
+                        <p>{{ session['card1'][1] }}</p>
+                        <input type="submit" value="Find Gold" class="card-btn">
+                    </form>
+                </div>
+                <div class="empty"></div>
+            </div>
+            <div class="row">
+                <div class="card game left">
+                    <form action="/process_money" method="POST" class="playcard">
+                        <input type="hidden" name="card-played" value="card2">
+                        <h3 class="cardname">{{ session['card2'][0] }}</h3>
+                        <p>{{ session['card2'][1] }}</p>
+                        <input type="submit" value="Find Gold" class="card-btn" onclick="process('card2')">
+                    </form>
+                </div>
+                <div class="card player">
+                    <h3 id="player">NINJA</h3>
+                    <h3 id="player"></h3>
+                    <div>
+                        <p>You currently have:</p>
+                        <h4>{{ session['gold'] }} Gold</h4>
+                    </div>
+                </div>
+                <div class="card game right">
+                    <form action="/process_money" method="POST" class="playcard">
+                        <input type="hidden" name="card-played" value="card3">
+                        <h3 class="cardname">{{ session['card3'][0] }}</h3>
+                        <p>{{ session['card3'][1] }}</p>
+                        <input type="submit" value="Find Gold" class="card-btn" onclick="process('card3')">
+                    </form>
+                </div>
+            </div>
+            <div class="row below">
+                <div class="empty"></div>
+                <div class="card game">
+                    <form action="/process_money" method="POST" class="playcard">
+                        <input type="hidden" name="card-played" value="card4">
+                        <h3 class="cardname">{{ session['card4'][0] }}</h3>
+                        <p>{{ session['card4'][1] }}</p>
+                        <input type="submit" value="Find Gold" class="card-btn" onclick="process('card4')">
+                    </form>
+                </div>
+                <div class="empty"></div>
+            </div>
+        </div>
+        {% elif status == True: %}
+        <div class="blast">
+            <h1 class="banger">CONGRATULATIONS</h1>
+            <h1>You've made more than <span>{{ gold }} GOLD</span>...</h1>
+            <h1>...in just {{ turns }} turns!</h1>
+            <button class="card-btn" onclick="refresh()">Play Again</button>
+        </div>
+        {% else: %}
+        <div class="blast">
+            <h1 class="banger">AWWW SHUCKS!</h1>
+            <h1>You didn't make enough gold.</h1>
+            <h1>Sorry!</h1>
+            <button class="card-btn" onclick="refresh()">Play Again</button>
+        </div>
+        {% endif %}
+    </div>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script type="text/javascript">
+        function refresh() {
+            self.location = "/";
+        }
+    </script>
+</body>
+</html>
